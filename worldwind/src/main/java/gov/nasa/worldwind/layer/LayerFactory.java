@@ -481,7 +481,7 @@ public class LayerFactory {
 
     private WmsCapabilities attemptGlobalCacheWmsCapabilitiesResolution(String serviceAddress) {
         File cacheFile = getGlobalCacheUrlFile(serviceAddress);
-        if (!cacheFile.exists()) {
+        if (cacheFile == null || !cacheFile.exists()) {
             return null;
         }
         FileInputStream inputStream = null;

@@ -147,7 +147,7 @@ public class ImageRetriever extends Retriever<ImageSource, ImageOptions, Bitmap>
         }
 
         File cacheFileFD = getGlobalCacheUrlFile(urlString);
-        if (!cacheFileFD.exists()) {
+        if (cacheFileFD == null || !cacheFileFD.exists()) {
             return null;
         }
         long fileSizeInBytes = cacheFileFD.length();
@@ -166,6 +166,9 @@ public class ImageRetriever extends Retriever<ImageSource, ImageOptions, Bitmap>
 
     protected void addToGlobalCache(String urlString, Bitmap bitmap) {
         File cacheFileFD = getGlobalCacheUrlFile(urlString);
+        if (cacheFileFD == null) {
+            return; // No cache configured
+        }
         try (FileOutputStream out = new FileOutputStream(cacheFileFD)) {
             bitmap.compress(Bitmap.CompressFormat.PNG, 100, out);
         }
